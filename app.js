@@ -18,7 +18,7 @@ app.use(
   })
 );
 
-app.use("/hr", Routes);
+app.use("/api", Routes);
 
 // Handles all errors
 app.use((err, req, res, next) => {
@@ -52,4 +52,4 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5000
 
-app.listen(PORT, ()=> console.log(`Server Started on PORT ${PORT}`));
+app.listen(PORT, ()=> console.log(`Server Started on PORT: ${PORT}`));

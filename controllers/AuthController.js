@@ -68,7 +68,7 @@ exports.login = async(req, res, next)=>{
                 message:"User not found"
             })
         }else{
-            if (user.activated !== 1) {
+            if (user.isActivated !== true) {
                 return res.status(400).send({
                     status: false,
                     message:"Account not activated: Check your email for activation link"
@@ -78,7 +78,7 @@ exports.login = async(req, res, next)=>{
                 if (!compare) {
                     return res.status(400).send({
                         status: false,
-                        message: "Invalid Password"
+                        message: "Invalid Credentials"
                     })
                 }else{
                     const payload = {
@@ -86,7 +86,7 @@ exports.login = async(req, res, next)=>{
                             id: user.id,
                         },
                         };
-                    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: 36000});
+                    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {expiresIn: 36000});
                     return res.status(200).send({
                         status: true,
                         token, 
@@ -99,7 +99,7 @@ exports.login = async(req, res, next)=>{
         
         return res.status(500).send({
             status: false,
-            message: "Server Error"
+            message: "Server Error: "+error.message
         })
     }
 }
@@ -131,6 +131,29 @@ exports.checkAuth = async(req, res, next)=>{
         return res.status(500).send({
             status: false,
             message: "Server Error"
+        })
+    }
+}
+
+exports.verifyemail = async(req, res, next)=>{
+    try {
+        const { email, token} = req.query;
+        const user = await User.findOne({ where:{ email, email_token: token} });
+        if (!user) {
+            return res.status(400).send({
+                success: false,
+                message: "Invalid User"
+            })
+        }
+        await User.update({ isActivated: true}, {where: { email}});
+        return res.status(200).send({
+            success: true,
+            message: "User updated successfully"
+        })
+    } catch (error) {
+        return res.status(500).send({
+            success: false,
+            message: "Server Error: "+error.message
         })
     }
 }

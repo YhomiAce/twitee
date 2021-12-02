@@ -37,7 +37,7 @@ const registerValidation = () => {
 const loginValidation = () => {
     return [
       body("email", "email is required").isEmail(),
-      body("password", "Password is required").isLength({min:8})     
+      body("password", "Enter Password with length of 8 or more characters").isLength({min:8})     
     ];
 };
 

@@ -9,14 +9,18 @@ app.disable("etag");
 const Routes = require("./routes");
 const db = require("./database/PostgresDb");
 
+// middlewares
 app.use(Cors());
-app.use(BodyParser.json({ limit: "50mb" }));
-
-app.use(
-  BodyParser.urlencoded({
-    extended: false
-  })
-);
+app.use(function (req,res,next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'POST, PUT, GET, PATCH, DELETE, OPTIONS');
+    next();
+});
+app.use(BodyParser.json());
+app.use(BodyParser.urlencoded({
+    extended: true
+}));
 
 app.use("/api", Routes);
 

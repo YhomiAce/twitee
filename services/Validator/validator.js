@@ -28,7 +28,6 @@ const okvalidate = validations => {
 
 const registerValidation = () => {
     return [
-      body("name", "Name is required").notEmpty(),
       body("email", "Please Provide a valid Email address").isEmail(),
       body("password", "Enter Password with length of 8 or more characters").isLength({min:8})     
     ];
@@ -41,10 +40,27 @@ const loginValidation = () => {
     ];
 };
 
+const twitValidation = () => {
+  return [ body("twit", "Twit is required").notEmpty()];
+};
+
+const commentValidation = () => {
+  return [ 
+    body("comment", "Comment is required").notEmpty(),
+    body("twitId", "Twit Id is required").isUUID(),
+  ];
+};
+
+const likeValidation = () => {
+  return [ body("twitId", "Twit Id is required").isUUID()];
+};
 
 module.exports = {
     validate,
     okvalidate,
     registerValidation,
-    loginValidation
+    loginValidation,
+    twitValidation,
+    commentValidation,
+    likeValidation
 }

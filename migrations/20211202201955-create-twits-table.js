@@ -1,0 +1,40 @@
+/* eslint-disable no-unused-vars */
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     *
+     * ` */
+
+    const table = await queryInterface.createTable("twits", {
+      id: {
+        type: Sequelize.UUID,
+        defaultValue: new Sequelize.UUIDV4(),
+        unique: true,
+        primaryKey: true
+      },
+      userId: {
+        type: Sequelize.UUID,
+        allowNull: false
+      },
+      twit: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+      createdAt: { allowNull: false, type: Sequelize.DATE },
+      updatedAt: { allowNull: false, type: Sequelize.DATE },
+      deletedAt: { allowNull: true, type: Sequelize.DATE }
+    });
+
+    return Promise.all(table);
+  },
+
+  down: async (queryInterface, Sequelize) => {
+    /**
+     * Add reverting commands here.
+     */
+    return queryInterface.dropTable("twits");
+  }
+};

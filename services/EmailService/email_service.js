@@ -214,37 +214,44 @@ exports.sendActivationEmail = async ({ name, email, email_token }) => {
     </div>
     </body>
     </html>`;
-        let transporter = nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,
-            port: process.env.EMAIL_PORT,
-            secure: false, // true for 465, false for other ports
-            auth: {
+    let transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
+        secure: false, // true for 465, false for other ports
+        auth: {
             user: process.env.EMAIL_USERNAME, // generated ethereal user
             pass: process.env.EMAIL_PASSWORD, // generated ethereal password
-            },
-        });
+        },
+        tls: {
+            rejectUnauthorized: false
+        },
+        ool: true,
+        maxConnections: 1,
+        rateDelta: 20000,
+        rateLimit: 5,
+    });
 
-        // send mail with defined transport object
-        let mailOptions = {
-            from: ` "TWITEE" <${process.env.EMAIL_USERNAME}>`, // sender address
-            to: `${email}`, // list of receivers
-            subject: "[TWITEE] Please activate your account", // Subject line
-            text: "TWITEE", // plain text body
-            html: output, // html body
-        };
-        transporter.sendMail(mailOptions, async(err, info)=>{
-            if (err) {
-                console.log(err);
-                
-                
-            }else{
-                console.log('Mail Sent: ', info);
-                
-                // return res.status(200).send({
-                //     status:true,
-                //     message:"Registration successful, check your email for activation link."
-                // });
-                
-            }
-        })
+    // send mail with defined transport object
+    let mailOptions = {
+        from: ` "TWITEE" <${process.env.EMAIL_USERNAME}>`, // sender address
+        to: `${email}`, // list of receivers
+        subject: "[TWITEE] Please activate your account", // Subject line
+        text: "TWITEE", // plain text body
+        html: output, // html body
+    };
+    transporter.sendMail(mailOptions, async (err, info) => {
+        if (err) {
+            console.log(err);
+
+
+        } else {
+            console.log('Mail Sent: ', info);
+
+            // return res.status(200).send({
+            //     status:true,
+            //     message:"Registration successful, check your email for activation link."
+            // });
+
+        }
+    })
 }

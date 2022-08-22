@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const uniqueString = require("unique-string");
 const generateUsername = require('generate-username-from-email')
 
-const sequelize = require("../database/PostgresDb");
+const sequelize = require("../config/database/connection");
 const User = require("../models/User");
 const { sendActivationEmail } = require("../services/EmailService/email_service");
 const { capitalizeFirstLetter } = require("../helpers/helper")

@@ -29,12 +29,12 @@
 <li>List Comment</li>
 <li>Delete Comment</li>
 
-### Comment
+### Like
 
-<li>Create Comment</li>
-<li>Update Comment</li>
-<li>List Comment</li>
-<li>Delete Comment</li>
+<li>Create Like</li>
+<li>Update Like</li>
+<li>List Like</li>
+<li>Delete Like</li>
 
 
 ### Setup Instructions
